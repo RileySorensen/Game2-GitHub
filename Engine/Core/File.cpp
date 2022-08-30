@@ -1,6 +1,7 @@
 #include "File.h"
 #include<filesystem>
 #include<fstream>
+#include "Logger.h"
 namespace Bogo
 {
 	void SetFilePath(const std::string& pathname)
@@ -28,7 +29,11 @@ namespace Bogo
 
 	bool ReadFile(const std::string& pathname, std::string& buffer)
 	{
-		if (!FileExists(pathname)) return false;
+		if (!FileExists(pathname))
+		{
+			LOG("Error, Could not read file %s", pathname);
+			return false;
+		}
 		//get file size and set buffer size
 		size_t size;
 		GetFileSize(pathname, size);

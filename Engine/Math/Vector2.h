@@ -14,6 +14,14 @@ namespace Bogo
 		Vector2(int x, int y) : x{ (float)x }, y{ (float)y } {}
 
 		void Set(float x, float y) { this->x = x; this->y = y; }
+		float operator [] (size_t index) const { return (&x)[index]; }
+		float& operator [] (size_t index) { return (&x)[index]; }
+
+		float Dot(const Vector2& v);
+		float GetAngleBetween(const Vector2& v);
+		float GetSignedAngleBetween(const Vector2& v);
+		
+
 		//arithmetic operators
 		//Vector = Vector2 + Vector2
 		Vector2 operator + (const Vector2& v) const { return Vector2{this->x + v.x,this->y + v.y }; }
@@ -50,30 +58,42 @@ namespace Bogo
 		float Length();
 		float DistanceSqr(const Vector2& v);
 		float Distance(const Vector2& v);
-		float GetAngle();
 		Vector2 Normalized();
 		void Normalize();
 
+		float GetAngle();
 		static Vector2 Rotate(const Vector2& v, float angle);
 
-		
+		static const Vector2 one;
+		static const Vector2 zero;
+		static const Vector2 up;
+		static const Vector2 down;
+		static const Vector2 left;
+		static const Vector2 right;
 
 	};
 
-	inline std::istream& operator >> (std::istream& stream, Vector2& v)
+	std::istream& operator >> (std::istream& stream, Vector2& v);
+	
+	inline float Vector2::Dot(const Vector2& v)
 	{
-		std::string line;
-		std::getline(stream, line);
-		std::string xs = line.substr(line.find("{") + 1, line.find(",") - line.find("{") - 1);
-		v.x = std::stof(xs);
-
-		std::string ys = line.substr(line.find(",") + 1, line.find("}") - line.find(",") - 1);
-		v.y = std::stof(ys);
-
-		return stream;
+		return x * v.x + y * v.y;
 	}
 
-	inline float Vector2::LengthSqr() 
+	inline float Vector2::GetAngleBetween(const Vector2& v)
+	{
+		return std::acos(Dot(v));
+	}
+
+	inline float Vector2::GetSignedAngleBetween(const Vector2& v)
+	{
+		float y = x * v.y - y * v.x;
+		float x = x * v.x + y * v.y;
+		
+		return std::atan2(y, x);
+	}
+
+	inline float Vector2::LengthSqr()
 	{
 		return x * x + y * y;
 	}
@@ -99,7 +119,7 @@ namespace Bogo
 	{
 		float length = Length();
 
-		return Vector2{x / length, y / length};
+		return (length == 0) ? Vector2{ 0,0 } : Vector2{ x / length, y / length };
 	}
 	inline void Vector2::Normalize()
 	{
@@ -111,4 +131,5 @@ namespace Bogo
 		float y = v.x * std::sin(angle) + v.y * std::cos(angle);
 		return Vector2{ x,y };
 	}
+	std::ostream& operator << (std::ostream& stream, const Vector2& v);
 }

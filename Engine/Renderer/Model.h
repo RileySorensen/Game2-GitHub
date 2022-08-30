@@ -1,10 +1,11 @@
 #pragma once
 #include "Renderer.h"
+#include "Resource/Resource.h"
 #include <vector>
 #include <string>
 namespace Bogo
 {
-	class Model
+	class Model : public Resource
 	{
 	public:
 		Model() = default;
@@ -13,10 +14,13 @@ namespace Bogo
 			m_color{ color }{}
 
 		Model(const std::string& filename);
+		bool Create(std::string filename,...) override;
 
-		void Draw(Renderer& renderer, const Vector2& position, float angle, const float& scale = 1);
+		void Draw(Renderer& renderer, const Vector2& position, float angle, const Vector2& scale = Vector2{1,1});
+		void Draw(Renderer& renderer, const Transform& transform);
 
-		void Load(const std::string& filename);
+		bool Load(const std::string& filename);
+
 		float CalculateRadius();
 		
 		float GetRadius() { return m_radius; }

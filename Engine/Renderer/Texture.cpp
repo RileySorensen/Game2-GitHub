@@ -2,15 +2,28 @@
 #include "Renderer.h"
 #include <SDL.h>
 #include <SDL_image.h>
+#include <SDL_ttf.h>
 
 namespace Bogo
 {
     Texture::~Texture()
     {
-        if (!m_texture)
+        if (m_texture)
         {
-            SDL_DestroyTexture;
+            SDL_DestroyTexture(m_texture);
         }
+    }
+
+    bool Texture::Create(std::string filename,...)
+    {
+        va_list args;
+        va_start(args, filename);
+
+        Renderer& renderer = va_arg(args, Renderer);
+
+        va_end(args);
+
+        return Create(renderer, filename);
     }
 
     bool Texture::Create(Renderer& renderer, const std::string& filename)
@@ -26,7 +39,7 @@ namespace Bogo
     {
         SDL_Point point;
         SDL_QueryTexture(m_texture, nullptr, nullptr,&point.x, &point.y );
-        return Vector2().x, Vector2().y;
+        return Vector2{ point.x,point.y };
     }
 
 }

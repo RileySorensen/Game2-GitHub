@@ -77,8 +77,8 @@ namespace Bogo
 	InputSystem::State InputSystem::GetKeyState(uint32_t Key)
 	{
 		State keyState = State::Idle;
-		bool buttonDown = GetButtonDown(Key);
-		bool prevButtonDown = GetPreviousButtonDown(Key);
+		bool buttonDown = GetKeyDown(Key);
+		bool prevButtonDown = GetPrevKeyDown(Key);
 
 		if (buttonDown && prevButtonDown)
 		{

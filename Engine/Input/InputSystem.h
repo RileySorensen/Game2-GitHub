@@ -25,6 +25,7 @@ namespace Bogo
 		void Update();
 		
 		bool GetKeyDown(int key) { return m_keyboardState[key]; }
+		bool GetPrevKeyDown(int key) { return m_prevKeyboardState[key]; }
 
 		const Vector2& GetMousePosition() const { return m_mousePosition; }
 		State GetButtonState(uint32_t button);

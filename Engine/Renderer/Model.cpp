@@ -1,7 +1,11 @@
 #include "Model.h"
 #include "../Core/File.h"
+#include "../Core/Logger.h"
+#include "Math/Transform.h"
 #include <sstream>
 #include <iostream>
+
+
 namespace Bogo
 {
 	Model::Model(const std::string& filename)
@@ -9,7 +13,17 @@ namespace Bogo
 		Load(filename);
 		m_radius = CalculateRadius();
 	}
-	void Model::Draw(Renderer& renderer, const Vector2& position, float angle,const float& scale)
+	bool Model::Create(std::string filename,...)
+	{
+		// could not load
+		if (!Load(filename))
+		{
+			LOG("Error could not load model %s", filename.c_str());
+			return false;
+		}
+		return true;
+	}
+	void Model::Draw(Renderer& renderer, const Vector2& position, float angle,const Vector2& scale)
 	{
 		/*Bogo::Color color;
 		color.r = Bogo::random(256);
@@ -25,10 +39,25 @@ namespace Bogo
 			renderer.DrawLine(p1, p2, m_color);
 		}
 	}
-	void Model::Load(const std::string& filename)
+	void Model::Draw(Renderer& renderer, const Transform& transform)
+	{
+		Matrix3x3 mx = transform.matrix;
+		for (int i = 0; i < m_points.size() - 1; i++)
+		{
+			Bogo::Vector2 p1 = mx * m_points[i];
+			Bogo::Vector2 p2 = mx * m_points[i + 1];
+			renderer.DrawLine(p1, p2, m_color);
+		}
+	}
+	bool Model::Load(const std::string& filename)
 	{
 		std::string buffer;
-		Bogo::ReadFile(filename,buffer);
+		if (!Bogo::ReadFile(filename, buffer))
+		{
+			LOG("Error, Could not read file %s", filename);
+			return false;
+		}
+		
 
 		std::istringstream stream(buffer);
 		stream >> m_color;
@@ -46,6 +75,7 @@ namespace Bogo
 
 			m_points.push_back(point);
 		}
+		return true;
 	}
 	float Model::CalculateRadius()
 	{

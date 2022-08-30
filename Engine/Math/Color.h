@@ -1,5 +1,7 @@
 #pragma once
 #include <cstdint>
+#include <iostream>
+#include <string>
 namespace Bogo
 {
 	//typedef unsigned char u8_t
@@ -10,26 +12,17 @@ namespace Bogo
 		uint8_t g;
 		uint8_t b;
 		uint8_t a;
+
+		uint8_t operator [] (size_t index) const { return (&r)[index]; }
+		uint8_t& operator [] (size_t index) { return (&r)[index]; }
+
+		static const Color white;
+		static const Color black;
+		static const Color red;
+		static const Color green;
+		static const Color blue;
 	};
-	inline std::istream& operator >> (std::istream& stream, Color& color)
-	{
-		std::string line;
-		std::getline(stream, line);
-		std::string str;
-		
-		str = line.substr(line.find("{") + 1,line.find(",") - line.find("{") - 1);
-		color.r = (uint8_t)(stof(str) * 255);
-
-		str = line.substr(line.find(",") + 1, line.find_last_of(",") - line.find(",") - 1);
-		color.g = (uint8_t)(stof(str) * 255);
-		
-		str = line.substr(line.find_last_of(",") + 1, line.find("}") - line.find_last_of(",") - 1);
-		color.b = (uint8_t)(stof(str) * 255);
-
-
-		color.a = 255;
-
-		return stream;
-	}
+	std::istream& operator >> (std::istream& stream, Color& color);
+	std::ostream& operator << (std::ostream& stream, const Color& color);
 }
 

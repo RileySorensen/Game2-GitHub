@@ -1,5 +1,6 @@
 #include "Font.h"
 #include <SDL_ttf.h>
+#include "Engine.h"
 Bogo::Font::Font(const std::string& filename, int fontsize)
 {
 	Load(filename, fontsize);
@@ -12,6 +13,11 @@ Bogo::Font::~Font()
 		TTF_CloseFont(m_ttfFont);
 		m_ttfFont = nullptr;
 	}
+}
+
+bool Bogo::Font::Create(std::string filename, ...)
+{
+	return false;
 }
 
 void Bogo::Font::Load(const std::string& filename, int fontsize)
