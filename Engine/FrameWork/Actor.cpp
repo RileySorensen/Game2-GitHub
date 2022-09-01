@@ -31,6 +31,7 @@ namespace Bogo
 
 		if (m_parent) m_transform.Update(m_parent->m_transform.matrix);
 		else m_transform.Update();
+	
 	}
 
 	void Actor::Draw(Renderer& renderer)

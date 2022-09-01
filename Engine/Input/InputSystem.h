@@ -55,4 +55,5 @@ namespace Bogo
 	extern const uint32_t key_left;
 	extern const uint32_t key_right;
 	extern const uint32_t key_escape;
+	extern const uint32_t key_sprint;
 }

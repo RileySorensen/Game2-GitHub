@@ -18,12 +18,14 @@
 #include "Component/SpriteAnimComponent.h"
 #include "Component/CollisionComponent.h"
 #include "Component/TilemapComponent.h"
+#include "Component/CharacterComponent.h"
 
 #include "FrameWork/Scene.h"
 #include "FrameWork/Singleton.h"
 #include "FrameWork/Factory.h"
 #include "FrameWork/Actor.h"
 #include "FrameWork/EventManager.h"
+#include "FrameWork/GameObject.h"
 
 #include "Serialization/JSON.h"
 
@@ -46,7 +48,7 @@ namespace Bogo
 	extern AudioSystem g_audio;
 	extern ResourceManager g_resources;
 	extern PhysicsSystem g_physicsSystem;
-	extern EventManger g_evenManager;
+	extern EventManger g_eventManager;
 	class Engine : public Singleton<Engine>
 	{
 	public:

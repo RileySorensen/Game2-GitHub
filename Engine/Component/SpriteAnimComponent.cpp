@@ -29,7 +29,7 @@ void Bogo::SpriteAnimComponent::Update()
 
 void Bogo::SpriteAnimComponent::Draw(Renderer& renderer)
 {
-	renderer.Draw(m_texture, GetSource(), m_owner->m_transform);
+	renderer.Draw(m_texture, GetSource(), m_owner->m_transform, registration, flipHorizontal);
 }
 
 Bogo::Rect& Bogo::SpriteAnimComponent::GetSource()

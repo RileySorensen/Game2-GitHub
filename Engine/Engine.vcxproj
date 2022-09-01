@@ -161,6 +161,7 @@
     <ClCompile Include="Components\RenderComponent.cpp" />
     <ClCompile Include="Components\SpriteComponent.cpp" />
     <ClCompile Include="Component\AudioComponents.cpp" />
+    <ClCompile Include="Component\CharacterComponent.cpp" />
     <ClCompile Include="Component\CollisionComponent.cpp" />
     <ClCompile Include="Component\ModelComponent.cpp" />
     <ClCompile Include="Component\Physic Component.cpp" />
@@ -199,6 +200,7 @@
     <ClInclude Include="Components\RenderComponent.h" />
     <ClInclude Include="Components\SpriteComponent.h" />
     <ClInclude Include="Component\AudioComponents.h" />
+    <ClInclude Include="Component\CharacterComponent.h" />
     <ClInclude Include="Component\CollisionComponent.h" />
     <ClInclude Include="Component\ModelComponent.h" />
     <ClInclude Include="Component\Physic Component.h" />

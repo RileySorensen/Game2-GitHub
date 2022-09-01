@@ -14,7 +14,7 @@ int main()
 	Bogo::g_audio.Initialize();
 	Bogo::g_resources.Initialize();
 	Bogo::g_physicsSystem.Initialize();
-	Bogo::g_evenManager.Initialize();
+	Bogo::g_eventManager.Initialize();
 
 	Bogo::Engine::Instance().Register();
 
@@ -47,5 +47,5 @@ int main()
 	Bogo::Factory::Instance().Shutdown();
 	Bogo::g_renderer.Shutdown();
 	Bogo::g_audio.Shutdown();
-	Bogo::g_evenManager.Shutdown();
+	Bogo::g_eventManager.Shutdown();
 }

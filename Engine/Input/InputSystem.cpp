@@ -9,6 +9,7 @@ namespace Bogo
 	const uint32_t key_left = SDL_SCANCODE_A;
 	const uint32_t key_right = SDL_SCANCODE_D;
 	const uint32_t key_escape = SDL_SCANCODE_ESCAPE;
+	const uint32_t key_sprint = SDL_SCANCODE_C;
 
 	const uint32_t button_left = 0;
 	const uint32_t button_middle = 1;

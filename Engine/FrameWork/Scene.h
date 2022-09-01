@@ -63,7 +63,7 @@ namespace Bogo
 		{
 			if (name == actor->GetName())
 			{
-				return dynamic_cast<T*>(actor.get())
+				return dynamic_cast<T*>(actor.get());
 			}
 		}
 		return nullptr;
@@ -77,8 +77,8 @@ namespace Bogo
 		{
 			if (actor->GetTag()) 
 				{
-				T* tagActor = dynamic_cast<T*>(actor.get())
-					if (tagActor) result.push_back(tagActor);
+				T* tagActor = dynamic_cast<T*>(actor.get());
+				if (tagActor) result.push_back(tagActor);
 				 }
 		}
 		return result;

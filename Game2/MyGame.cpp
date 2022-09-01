@@ -1,8 +1,10 @@
 #include "MyGame.h"
+#include "GameComponent/EnemyComponent.h"
 #include "Engine.h"
 
 void MyGame::Initialize()
 {
+	REGISTER_CLASS(EnemyComponent);
 	m_scene = std::make_unique<Bogo::Scene>();
 	rapidjson::Document document;
 
@@ -21,7 +23,8 @@ void MyGame::Initialize()
 	m_scene->Initialize();
 
 	
-	Bogo::g_evenManager.Subscribe("EVENT_ADD_POINTS", std::bind(&MyGame::OnAddPoints, this, std::placeholders::_1));
+	Bogo::g_eventManager.Subscribe("EVENT_ADD_POINTS", std::bind(&MyGame::OnNotify, this, std::placeholders::_1));
+	Bogo::g_eventManager.Subscribe("EVENT_PLAYER_DEAD", std::bind(&MyGame::OnNotify, this, std::placeholders::_1));
 }
 
 
@@ -41,17 +44,49 @@ void MyGame::Update()
 		}
 		break;
 	case MyGame::gameState::startLevel:
-		for (int i = 0; i < 20; i++)
+		/*for (int i = 0; i < 5; i++)
 		{
 			auto actor = Bogo::Factory::Instance().Create<Bogo::Actor>("Coin");
 			actor->m_transform.position = { Bogo::randomf(0,800), 100.0f };
 			actor->Initialize();
 
 			m_scene->Add(std::move(actor));
+		}*/
+		for (int i = 0; i < 3; i++)
+		{
+			auto actor = Bogo::Factory::Instance().Create<Bogo::Actor>("Ghost");
+			actor->m_transform.position = { Bogo::randomf(500,600), 100.0f };
+			actor->Initialize();
+
+			m_scene->Add(std::move(actor));
 		}
+		m_gameState = gameState::game;
 		break;
 	case MyGame::gameState::game:
+	{
+		if (cooldown <= 0)
+		{
+			auto actor = Bogo::Factory::Instance().Create<Bogo::Actor>("Coin");
+			actor->m_transform.position = { Bogo::randomf(100,1000), 100.0f };
+			actor->Initialize();
+
+			m_scene->Add(std::move(actor));
+			cooldown = Bogo::random(100,200);
+		}
+		cooldown--;
+		if (enemyCooldown <= 0)
+		{
+			auto actor = Bogo::Factory::Instance().Create<Bogo::Actor>("Ghost");
+			actor->m_transform.position = { Bogo::randomf(500,600), 100.0f };
+			actor->Initialize();
+
+			m_scene->Add(std::move(actor));
+			enemyCooldown = Bogo::random(300, 500);
+		}
+		enemyCooldown--;
 		break;
+
+	}
 	case MyGame::gameState::playerDead:
 		m_stateTimer -= Bogo::g_time.deltaTime;
 		if (m_stateTimer <= 0)
@@ -59,6 +94,7 @@ void MyGame::Update()
 			m_gameState = gameState::titleScreen;
 		}
 		break;
+
 	case MyGame::gameState::gameOver:
 		break;
 	default:
@@ -72,18 +108,17 @@ void MyGame::Draw(Bogo::Renderer& renderer)
 	m_scene->Draw(renderer);
 }
 
-void MyGame::OnAddPoints(const Bogo::Event& event_)
+void MyGame::OnNotify(const Bogo::Event& event)
 {
-	addPoints(std::get<int>(event_.data));
-
-	std::cout << event_.name << std::endl;
-
-	std::cout << std::get<int>(event_.data) << std::endl;
-	std::cout << GetScore() << std::endl;
+	if (event.name == "EVENT_ADD_POINTS")
+	{
+		addPoints(std::get<int>(event.data));
+	}
+	if (event.name == "EVENT_PLAYER_DEAD")
+	{
+		m_gameState = gameState::playerDead;
+		m_stateTimer = 3;
+	}
 }
 
-void MyGame::OnPlayerDead(const Bogo::Event& event_)
-{
-	m_gameState = gameState::playerDead;
-	m_stateTimer = 3;
-}
+

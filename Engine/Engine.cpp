@@ -8,7 +8,7 @@ namespace Bogo
 	AudioSystem g_audio;
 	ResourceManager g_resources;
 	PhysicsSystem g_physicsSystem;
-	EventManger g_evenManager;
+	EventManger g_eventManager;
 
 	void Engine::Register()
 	{

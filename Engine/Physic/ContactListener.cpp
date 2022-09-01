@@ -49,8 +49,6 @@ namespace Bogo
 				actorB->GetComponent<CollisionComponent>()->OnCollisionEnter(actorA);
 			}
 
-			std::cout << "EndA:" << actorA->GetName() << std::endl;
-			std::cout << "EndB:" << actorB->GetName() << std::endl;
 		}
 
 
